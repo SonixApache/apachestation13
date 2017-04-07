@@ -249,3 +249,5 @@ var/global/list/image/fluidtrack_cache=list()
 	random_icon_states = null
 	amount = 0
 
+	/*so just make a new blood decal that has a variable with the direction of a sprite, 
+	assign the correct sprite to that variable, and just compare those variables to be used in addtracks*/
