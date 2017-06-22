@@ -745,12 +745,15 @@ Thanks.
 									if(isturf(HM.loc))
 										if(!HM.isincrit())
 											if(prob(blood_volume / 89.6)) //Chance to bleed based on blood remaining
-												blood_splatter(HM.loc,HM)
+												//blood_splatter(HM.loc,HM)
+												var/obj/effect/decal/cleanable/blood/tracks/dragtrail/BTV = new(HM.loc)
+												BTV.dir = inertia_dir
 												HM.vessel.remove_reagent("blood",4)
 												HM.visible_message("<span class='warning'>\The [HM] loses some blood from being dragged!</span>")
 										else
 											if(prob(blood_volume / 44.8)) //Crit mode means double chance of blood loss
-												blood_splatter(HM.loc,HM,1)
+												//blood_splatter(HM.loc,HM,1)
+												/*insert code here*/
 												HM.vessel.remove_reagent("blood",8)
 												HM.visible_message("<span class='danger'>\The [HM] loses a lot of blood from being dragged!</span>")
 												add_logs(src, HM, "caused drag damage bloodloss to", admin = (HM.ckey))
