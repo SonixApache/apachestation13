@@ -255,9 +255,9 @@ var/global/list/image/fluidtrack_cache=list()
 /obj/effect/decal/cleanable/blood/tracks/dragtrail
 	random_icon_states = list("ltrails_1")
 	absorbs_types=null
-	amount = 1
+	amount = 0
 
 /obj/effect/decal/cleanable/blood/tracks/dragtrail/large
 	random_icon_states = list("trails_1", "trails_2")
 	absorbs_types=list(/obj/effect/decal/cleanable/blood/tracks/dragtrail)
-	amount = 1	
+	amount = 0
