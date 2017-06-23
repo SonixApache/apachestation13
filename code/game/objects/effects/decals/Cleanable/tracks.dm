@@ -248,16 +248,13 @@ var/global/list/image/fluidtrack_cache=list()
 	random_icon_states = null
 	amount = 0
 
-	/*so just make a new blood decal that has a variable with the direction of a sprite, 
-	assign the correct sprite to that variable, and just compare those variables to be used in addtracks*/
-
-
+/* Drag damage blood trails!*/
 /obj/effect/decal/cleanable/blood/tracks/dragtrail
-	random_icon_states = list("ltrails_1")
+	random_icon_states = list("ltrails_2")
 	absorbs_types=null
 	amount = 0
 
 /obj/effect/decal/cleanable/blood/tracks/dragtrail/large
-	random_icon_states = list("trails_1", "trails_2")
+	random_icon_states = list("trails_1")
 	absorbs_types=list(/obj/effect/decal/cleanable/blood/tracks/dragtrail)
 	amount = 0

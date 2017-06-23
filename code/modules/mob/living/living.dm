@@ -722,7 +722,7 @@ Thanks.
 							var/list/bleeding_organs = HM.get_bleeding_organs()
 							
 							if (damaged_organs) //to prevent massive runtimes
-								if (damaged_organs.len)
+								if (damaged_organs.len) //to make sure 
 									if(!HM.isincrit())
 										if(prob(HM.getBruteLoss() / 5)) //Chance for damage based on current damage
 											for(var/datum/organ/external/damagedorgan in damaged_organs)
@@ -746,20 +746,47 @@ Thanks.
 									if(blood_volume > 0 || (HM.species.anatomy_flags & NO_BLOOD))
 										if(isturf(HM.loc))
 											if(!HM.isincrit())
-												if(prob(blood_volume / 89.6)) //Chance to bleed based on blood remaining
-													//blood_splatter(HM.loc,HM)
+												if (prob(100)) //for testing
+												//if(prob(blood_volume / 89.6)) //Chance to bleed based on blood remaining
+
 													var/obj/effect/decal/cleanable/blood/tracks/dragtrail/BTV = new(HM.loc)
-													if (!(inertia_dir == HM.inertia_dir))
-														BTV.dir = (inertia_dir + HM.inertia_dir)
+													/*if (!(inertia_dir == HM.inertia_dir))														
+														if (inertia_dir == 1 || inertia_dir == 2)
+															BTV.dir = (inertia_dir + HM.inertia_dir)
+														else //this is gross, don't look														
+															if (inertia_dir == 4 && HM.inertia_dir == 2)
+																BTV.dir = 6
+															if (inertia_dir == 4 && HM.inertia_dir == 1)
+																BTV.dir = 10
+															if (inertia_dir == 8 && HM.inertia_dir == 2)
+																BTV.dir = 5
+															if (inertia_dir == 8 && HM.inertia_dir == 1)
+																BTV.dir = 9
 													else
-														BTV.dir = inertia_dir
+														BTV.dir = inertia_dir*/ //what the fuck was i thinking
 													BTV.color = HM.species.blood_color
-													HM.vessel.remove_reagent("blood",4)
+													
+													HM.vessel.remove_reagent("blood",1) //set back to 4 after testing
 													HM.visible_message("<span class='warning'>\The [HM] loses some blood from being dragged!</span>")
 											else
 												if(prob(blood_volume / 44.8)) //Crit mode means double chance of blood loss
-													//blood_splatter(HM.loc,HM,1)
-													/*insert code here*/
+													
+													var/obj/effect/decal/cleanable/blood/tracks/dragtrail/large/LBTV = new(HM.loc)
+													/*if (!(inertia_dir == HM.inertia_dir))														
+														if (inertia_dir == 1 || inertia_dir == 2)
+															LBTV.dir = (inertia_dir + HM.inertia_dir)
+														else															
+															if (inertia_dir == 4 &&  HM.inertia_dir == 2)
+																LBTV.dir = 6
+															if (inertia_dir == 4 &&  HM.inertia_dir == 1)
+																LBTV.dir = 10
+															if (inertia_dir == 8 &&  HM.inertia_dir == 2)
+																LBTV.dir = 5
+															if (inertia_dir == 8 &&  HM.inertia_dir == 1)
+																LBTV.dir = 9
+													else
+														LBTV.dir = inertia_dir*/
+													LBTV.color = HM.species.blood_color
 													HM.vessel.remove_reagent("blood",8)
 													HM.visible_message("<span class='danger'>\The [HM] loses a lot of blood from being dragged!</span>")
 													add_logs(src, HM, "caused drag damage bloodloss to", admin = (HM.ckey))
