@@ -178,7 +178,8 @@
 											//newloc.AddTracks(/obj/effect/decal/cleanable/blood/tracks/dragtrail,get_blood_DNA(src),dir,dir,species.blood_color)
 											
 											if(istype(TS))
-												TS.AddTracks(/obj/effect/decal/cleanable/blood/tracks/dragtrail,get_blood_DNA(),0,Dir,species.blood_color)
+												//TS.AddTracks(/obj/effect/decal/cleanable/blood/tracks/dragtrail,get_blood_DNA(),0,Dir,species.blood_color)
+												TS.AddTracks(/obj/effect/decal/cleanable/blood/tracks/dragtrail,get_blood_DNA(src),dir,Dir,species.blood_color)
 											vessel.remove_reagent("blood",1) //set back to 4 after testing
 											visible_message("<span class='warning'>\The [src] loses some blood from being dragged!</span>")
 									else
