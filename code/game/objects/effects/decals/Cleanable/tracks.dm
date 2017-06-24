@@ -252,7 +252,8 @@ var/global/list/image/fluidtrack_cache=list()
 /obj/effect/decal/cleanable/blood/tracks/dragtrail
 	random_icon_states = list("ltrails_2")
 	desc = "Looks like someone got dragged past here."
-	going_state  = "ltrails_2"
+	coming_state  = "FUCKTRAILS1"
+	going_state  = "FUCKTRAILS2"
 	absorbs_types=null
 	amount = 0
 

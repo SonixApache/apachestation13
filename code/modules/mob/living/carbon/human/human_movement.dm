@@ -166,7 +166,7 @@
 						if (bleeding_organs.len)
 							var/blood_volume = round(src:vessel.get_reagent_amount("blood"))
 							/*Sometimes species with NO_BLOOD get blood, hence weird check*/
-							if(blood_volume > 0 || (species.anatomy_flags & NO_BLOOD))
+							if(blood_volume > 0 || !(species.anatomy_flags & NO_BLOOD))
 								if(isturf(loc))
 									if(!isincrit())
 										if (prob(100)) //for testing
@@ -179,7 +179,7 @@
 											
 											if(istype(TS))
 												//TS.AddTracks(/obj/effect/decal/cleanable/blood/tracks/dragtrail,get_blood_DNA(),0,Dir,species.blood_color)
-												TS.AddTracks(/obj/effect/decal/cleanable/blood/tracks/dragtrail,get_blood_DNA(src),dir,Dir,species.blood_color)
+												TS.AddTracks(/obj/effect/decal/cleanable/blood/tracks/dragtrail,get_blood_DNA(src),Dir,Dir,species.blood_color)
 											vessel.remove_reagent("blood",1) //set back to 4 after testing
 											visible_message("<span class='warning'>\The [src] loses some blood from being dragged!</span>")
 									else
