@@ -393,9 +393,15 @@ proc/blood_splatter(var/target,var/datum/reagent/blood/source,var/large)
 	return B
 
 proc/get_blood_DNA(var/mob/living/carbon/DNAtarget)
-	var/datum/reagent/blood/DNAtarget_blood = DNAtarget.get_blood(DNAtarget.vessel)
-	if(!DNAtarget_blood)
-		return 
+	if(istype(DNAtarget,/mob/living/carbon/human))
+		var/mob/living/carbon/human/H = DNAtarget
+		var/datum/reagent/blood/DNAtarget_blood = H.get_blood(H.vessel)
+		if(!DNAtarget_blood)
+			return 
 
-	else if(DNAtarget.dna)
-		return DNAtarget.dna
+		else if(DNAtarget.dna)
+			return H.dna
+	
+	if(istype(DNAtarget,/mob/living/carbon/monkey))
+		var/mob/living/carbon/monkey/APE = DNAtarget
+		return APE.dna

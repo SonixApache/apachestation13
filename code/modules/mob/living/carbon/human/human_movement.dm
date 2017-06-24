@@ -135,6 +135,74 @@
 		for(var/obj/item/weapon/bomberman/dispenser in src)
 			if(dispenser.spam_bomb)
 				dispenser.attack_self(src)
+				
+		/* Drag damage is here!*/
+		if(pulledby)
+			if (lying)
+				var/turf/T = loc
+				var/turf/simulated/TS = loc
+				var/list/damaged_organs = get_broken_organs()
+				var/list/bleeding_organs = get_bleeding_organs()
+				if (T.has_gravity())
+					if (damaged_organs) //to prevent massive runtimes
+						if (damaged_organs.len) //to make sure 
+							if(!isincrit())
+								if(prob(getBruteLoss() / 5)) //Chance for damage based on current damage
+									for(var/datum/organ/external/damagedorgan in damaged_organs)
+										if((damagedorgan.brute_dam) < damagedorgan.max_damage) //To prevent organs from accruing thousands of damage
+											apply_damage(2, BRUTE, damagedorgan)
+											visible_message("<span class='warning'>The wounds on \the [src]'s [damagedorgan.display_name] worsen from being dragged!</span>")
+											UpdateDamageIcon()
+							else
+								if(prob(15))
+									for(var/datum/organ/external/damagedorgan in damaged_organs)
+										if((damagedorgan.brute_dam) < damagedorgan.max_damage)
+											apply_damage(4, BRUTE, damagedorgan)
+											visible_message("<span class='warning'>The wounds on \the [src]'s [damagedorgan.display_name] worsen terribly from being dragged!</span>")
+											add_logs(pulledby, src, "caused drag damage to", admin = (ckey))
+											UpdateDamageIcon()
+					
+					if (bleeding_organs)
+						if (bleeding_organs.len)
+							var/blood_volume = round(src:vessel.get_reagent_amount("blood"))
+							/*Sometimes species with NO_BLOOD get blood, hence weird check*/
+							if(blood_volume > 0 || (species.anatomy_flags & NO_BLOOD))
+								if(isturf(loc))
+									if(!isincrit())
+										if (prob(100)) //for testing
+										//if(prob(blood_volume / 89.6)) //Chance to bleed based on blood remaining
+
+											//var/obj/effect/decal/cleanable/blood/tracks/BTV = new(loc)
+											//BTV.color = species.blood_color
+
+											//newloc.AddTracks(/obj/effect/decal/cleanable/blood/tracks/dragtrail,get_blood_DNA(src),dir,dir,species.blood_color)
+											
+											if(istype(TS))
+												TS.AddTracks(/obj/effect/decal/cleanable/blood/tracks/dragtrail,get_blood_DNA(),0,Dir,species.blood_color)
+											vessel.remove_reagent("blood",1) //set back to 4 after testing
+											visible_message("<span class='warning'>\The [src] loses some blood from being dragged!</span>")
+									else
+										if(prob(blood_volume / 44.8)) //Crit mode means double chance of blood loss
+											
+											//var/obj/effect/decal/cleanable/blood/tracks/dragtrail/large/LBTV = new(loc)
+											/*if (!(inertia_dir == inertia_dir))														
+												if (inertia_dir == 1 || inertia_dir == 2)
+													LBTV.dir = (inertia_dir + inertia_dir)
+												else															
+													if (inertia_dir == 4 &&  inertia_dir == 2)
+														LBTV.dir = 6
+													if (inertia_dir == 4 &&  inertia_dir == 1)
+														LBTV.dir = 10
+													if (inertia_dir == 8 &&  inertia_dir == 2)
+														LBTV.dir = 5
+													if (inertia_dir == 8 &&  inertia_dir == 1)
+														LBTV.dir = 9
+											else
+												LBTV.dir = inertia_dir*/
+											//LBTV.color = species.blood_color
+											vessel.remove_reagent("blood",8)
+											visible_message("<span class='danger'>\The [src] loses a lot of blood from being dragged!</span>")
+											add_logs(pulledby, src, "caused drag damage bloodloss to", admin = (ckey))
 
 /mob/living/carbon/human/CheckSlip()
 	. = ..()
