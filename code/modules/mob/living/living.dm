@@ -718,6 +718,7 @@ Thanks.
 							
 							/* Drag damage is here!*/
 							var/mob/living/carbon/human/HM = M
+							var/turf/simulated/HMTS = HM.loc
 							var/list/damaged_organs = HM.get_broken_organs()
 							var/list/bleeding_organs = HM.get_bleeding_organs()
 							
@@ -749,29 +750,17 @@ Thanks.
 												if (prob(100)) //for testing
 												//if(prob(blood_volume / 89.6)) //Chance to bleed based on blood remaining
 
-													var/obj/effect/decal/cleanable/blood/tracks/dragtrail/BTV = new(HM.loc)
-													/*if (!(inertia_dir == HM.inertia_dir))														
-														if (inertia_dir == 1 || inertia_dir == 2)
-															BTV.dir = (inertia_dir + HM.inertia_dir)
-														else //this is gross, don't look														
-															if (inertia_dir == 4 && HM.inertia_dir == 2)
-																BTV.dir = 6
-															if (inertia_dir == 4 && HM.inertia_dir == 1)
-																BTV.dir = 10
-															if (inertia_dir == 8 && HM.inertia_dir == 2)
-																BTV.dir = 5
-															if (inertia_dir == 8 && HM.inertia_dir == 1)
-																BTV.dir = 9
-													else
-														BTV.dir = inertia_dir*/ //what the fuck was i thinking
-													BTV.color = HM.species.blood_color
+													//var/obj/effect/decal/cleanable/blood/tracks/BTV = new(HM.loc)
+													//BTV.color = HM.species.blood_color
+					
+													HMTS.AddTracks(/obj/effect/decal/cleanable/blood/tracks/dragtrail,get_blood_DNA(HM),HM.inertia_dir,inertia_dir,HM.species.blood_color)
 													
 													HM.vessel.remove_reagent("blood",1) //set back to 4 after testing
 													HM.visible_message("<span class='warning'>\The [HM] loses some blood from being dragged!</span>")
 											else
 												if(prob(blood_volume / 44.8)) //Crit mode means double chance of blood loss
 													
-													var/obj/effect/decal/cleanable/blood/tracks/dragtrail/large/LBTV = new(HM.loc)
+													//var/obj/effect/decal/cleanable/blood/tracks/dragtrail/large/LBTV = new(HM.loc)
 													/*if (!(inertia_dir == HM.inertia_dir))														
 														if (inertia_dir == 1 || inertia_dir == 2)
 															LBTV.dir = (inertia_dir + HM.inertia_dir)
@@ -786,7 +775,7 @@ Thanks.
 																LBTV.dir = 9
 													else
 														LBTV.dir = inertia_dir*/
-													LBTV.color = HM.species.blood_color
+													//LBTV.color = HM.species.blood_color
 													HM.vessel.remove_reagent("blood",8)
 													HM.visible_message("<span class='danger'>\The [HM] loses a lot of blood from being dragged!</span>")
 													add_logs(src, HM, "caused drag damage bloodloss to", admin = (HM.ckey))

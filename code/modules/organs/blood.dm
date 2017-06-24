@@ -391,3 +391,11 @@ proc/blood_splatter(var/target,var/datum/reagent/blood/source,var/large)
 		B.virus2 = virus_copylist(source.data["virus2"])
 
 	return B
+
+proc/get_blood_DNA(var/mob/living/carbon/DNAtarget)
+	var/datum/reagent/blood/DNAtarget_blood = DNAtarget.get_blood(DNAtarget.vessel)
+	if(!DNAtarget_blood)
+		return 
+
+	else if(DNAtarget.dna)
+		return DNAtarget.dna

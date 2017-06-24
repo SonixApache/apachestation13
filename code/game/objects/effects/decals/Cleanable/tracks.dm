@@ -251,6 +251,7 @@ var/global/list/image/fluidtrack_cache=list()
 /* Drag damage blood trails!*/
 /obj/effect/decal/cleanable/blood/tracks/dragtrail
 	random_icon_states = list("ltrails_2")
+	desc = "Looks like someone got dragged past here."
 	absorbs_types=null
 	amount = 0
 
