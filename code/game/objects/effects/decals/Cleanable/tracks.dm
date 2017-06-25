@@ -257,7 +257,6 @@ var/global/list/image/fluidtrack_cache=list()
 	going_state  = ""
 	random_icon_states = null
 	absorbs_types=null
-	gender = PLURAL
 	amount = 0
 
 /obj/effect/decal/cleanable/blood/tracks/dragtrail/large
