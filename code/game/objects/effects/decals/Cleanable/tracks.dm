@@ -250,15 +250,17 @@ var/global/list/image/fluidtrack_cache=list()
 
 /* Drag damage blood trails!*/
 /obj/effect/decal/cleanable/blood/tracks/dragtrail
-	random_icon_states = list("ltrails_2")
+	//random_icon_states = list("ltrails_2") this is why everything is breaking smartass
+	name = "blood trail"
 	desc = "Looks like someone got dragged past here."
-	coming_state  = "FUCKTRAILS1"
-	going_state  = "FUCKTRAILS2"
+	coming_state  = "ltrails_1"
+	going_state  = ""
+	random_icon_states = null
 	absorbs_types=null
+	gender = PLURAL
 	amount = 0
 
 /obj/effect/decal/cleanable/blood/tracks/dragtrail/large
-	random_icon_states = list("trails_1")
+	//random_icon_states = list("trails_1")
 	absorbs_types=list(/obj/effect/decal/cleanable/blood/tracks/dragtrail)
-	going_state  = "trails_1"
-	amount = 0
+	coming_state  = "trails_1"
