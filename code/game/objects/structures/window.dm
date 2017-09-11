@@ -36,7 +36,9 @@ var/list/one_way_windows
 	var/fire_volume_mod = 100
 
 	var/one_way = 0 //If set to 1, it will act as a one-way window.
+	var/smart_transparency = FALSE
 	var/obj/machinery/smartglass_electronics/smartwindow //holds internal machinery
+	var/datum/power_connection/consumer/power_connection = null
 
 /obj/structure/window/New(loc)
 
@@ -53,6 +55,23 @@ var/list/one_way_windows
 			one_way_windows = list()
 		one_way_windows.Add(src)
 		overlays += oneway_overlay
+	power_connection = new(src)
+	power_connection.idle_usage = 0
+	power_connection.active_usage = 50
+	power_connection.power_changed.Add(src, "power_change")
+	power_connection.use = 2
+	power_connection.set_enabled()
+
+/obj/structure/window/proc/power_change(var/list/args)
+	if(!power_connection.powered())
+		if(opacity)
+			animate(src, color="#FFFFFF", time=5)
+			set_opacity(0)
+	else if(smart_transparency)
+		if(!opacity)
+			animate(src, color="#222222", time=5)
+			set_opacity(1)
+
 
 /obj/structure/window/projectile_check()
 	return PROJREACT_WINDOWS
@@ -260,15 +279,6 @@ var/list/one_way_windows
 	if(!isslimeadult(user))
 		return
 	attack_generic(user, rand(10, 15))
-
-/obj/structure/window/proc/smart_toggle() //For "smart" windows
-	if(opacity)
-		animate(src, color="#FFFFFF", time=5)
-		set_opacity(0)
-	else
-		animate(src, color="#222222", time=5)
-		set_opacity(1)
-	return opacity
 		
 /obj/structure/window/attackby(obj/item/weapon/W as obj, mob/living/user as mob)
 
@@ -336,7 +346,7 @@ var/list/one_way_windows
 		LT.use(1)
 		to_chat(user, "<span class='notice'>You add some electronics to the window.</span>")	
 		smartwindow = new /obj/machinery/smartglass_electronics(src)
-		smart_toggle()
+		power_change()
 		return 1
 		
 		
@@ -395,8 +405,8 @@ var/list/one_way_windows
 					update_icon()
 					qdel(smartwindow)
 					smartwindow = null
-					if (opacity)
-						smart_toggle()
+					smart_transparency = FALSE
+					power_change()
 					drop_stack(/obj/item/stack/light_w, get_turf(src), 1, user)
 					//Perform pressure check since window no longer blocks air
 					var/pdiff = performWallPressureCheck(src.loc)
@@ -418,8 +428,8 @@ var/list/one_way_windows
 					update_icon()
 					qdel(smartwindow)
 					smartwindow = null
-					if (opacity)
-						smart_toggle()
+					smart_transparency = FALSE
+					power_change()
 					drop_stack(/obj/item/stack/light_w, get_turf(src), 1, user)
 					return
 
@@ -535,6 +545,9 @@ var/list/one_way_windows
 		spawnBrokenPieces()
 	if(one_way)
 		one_way_windows.Remove(src)
+	if(power_connection)
+		qdel(power_connection)
+		power_connection = null
 	..()
 
 /obj/structure/window/proc/spawnBrokenPieces()

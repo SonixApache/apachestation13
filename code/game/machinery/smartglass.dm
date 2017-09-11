@@ -27,10 +27,6 @@
 	var/frequency = 1449
 	var/datum/radio_frequency/radio_connection
 	
-	//power vars
-	var/datum/power_connection/consumer/electromagic = null
-	
-	
 /obj/machinery/smartglass_electronics/cultify()
 	qdel(src)
 	return
@@ -39,51 +35,20 @@
 	..()
 	GLASS = loc
 	radio_connection = radio_controller.add_object(src, frequency, RADIO_AIRLOCK)
-	electromagic=new(GLASS,GLASS)
-	electromagic.idle_usage=idle_power_usage
-	electromagic.active_usage=active_power_usage
-	electromagic.power_changed.Add(src,"power_change")
-	electromagic.use = 2
-	electromagic.set_enabled()
 
 /obj/machinery/smartglass_electronics/Destroy()
 	radio_controller.remove_object(src, frequency)
 	qdel(radio_connection)
 	radio_connection = null
-	if(electromagic)
-		qdel(electromagic)
-		electromagic = null
 	..()
 	
-/**********************
-// POWER SHIT
-**********************/
-	
-/obj/machinery/smartglass_electronics/emp_act(severity)
-	if(stat & (BROKEN|NOPOWER))
-		..(severity)
-		return
-	power_change()
-	..(severity)	
-	//should add randomized window states here	
-	
-/obj/machinery/smartglass_electronics/power_change()
-	if(stat & (NOPOWER | BROKEN))
-		if (smart_power)
-			smart_power = 0
-			GLASS.smart_toggle()
-
 /**********************
 // SMARTGLASS PROCS
 **********************/
 			
 /obj/machinery/smartglass_electronics/proc/toggle_smart_power()
-	if (smart_power)
-		smart_power = 0
-	else
-		smart_power = 1
-	GLASS.smart_toggle()
-	return smart_power
+	GLASS.smart_transparency = !GLASS.smart_transparency
+	return GLASS.smart_transparency
 
 
 /**********************

@@ -246,8 +246,8 @@
 
 	var/event/power_changed = null
 
-/datum/power_connection/consumer/New(var/loc,var/obj/parent)
-	..(loc,parent)
+/datum/power_connection/consumer/New(var/obj/parent)
+	..(parent)
 	power_changed = new ("owner"=src)
 
 /datum/power_connection/consumer/power_change()
