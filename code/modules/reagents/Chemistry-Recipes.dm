@@ -3300,7 +3300,14 @@
 	name = "Weed Eater"
 	id = WEED_EATER
 	result = WEED_EATER
-	required_reagents = list(SPACE_DRUGGS = 1, AMATOXIN = 1, PSILOCYBIN = 1, KARMOTRINE = 2)
+	required_reagents = list(SPACE_DRUGS = 1, AMATOXIN = 1, PSILOCYBIN = 1, KARMOTRINE = 2)
+	result_amount = 5
+
+	/datum/chemical_reaction/paranoia
+	name = "Paranoia"
+	id = PARANOIA
+	result = PARANOIA
+	required_reagents = list(SYNDICATEBOMB = 2, CHANGELINGSTING = 2, KARMOTRINE = 1)
 	result_amount = 5
 
 /datum/chemical_reaction/lemonlime

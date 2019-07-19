@@ -5716,6 +5716,34 @@
 	if(!(locate(spell) in M.spell_list))
 		to_chat(M, "<span class='notice'>You feel hungry like the diona.</span>")
 		M.add_spell(spell)
+		
+/datum/reagent/ethanol/paranoia
+	name = "Paranoia"
+	id = METABUDDY
+	description = "They're all murderers and crazies! Can't you see the signs?! You're the only sane one in this hellhole."
+	color = "#F4CF4A"
+	var/global/list/datum/mind/metaclub = list()
+
+/datum/reagent/ethanol/paranoia/on_mob_life(var/mob/living/L)
+	if(..())
+		return 1
+	var/datum/mind/LM = L.mind
+	if(!metaclub.Find(LM) && LM)
+		metaclub += LM
+		var/datum/mind/new_buddy = LM
+		for(var/datum/mind/M in metaclub) //Update metaclub icons
+			if(M.current.client && new_buddy.current && new_buddy.current.client)
+				var/imageloc = new_buddy.current
+				var/imagelocB = M.current
+				if(istype(M.current.loc,/obj/mecha))
+					imageloc = M.current.loc
+					imagelocB = M.current.loc
+				var/image/I = image('icons/mob/HUD.dmi', loc = imageloc, icon_state = "metaclub")
+				I.plane = METABUDDY_HUD_PLANE
+				M.current.client.images += I
+				var/image/J = image('icons/mob/HUD.dmi', loc = imagelocB, icon_state = "metaclub")
+				J.plane = METABUDDY_HUD_PLANE
+				new_buddy.current.client.images += J
 
 /datum/reagent/ethanol/deadrum
 	name = "Deadrum"

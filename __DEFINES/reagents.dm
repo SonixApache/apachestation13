@@ -357,6 +357,7 @@
 #define METABUDDY		"metabuddy"
 #define SPIDERS			"spiders"
 #define WEED_EATER		"weed_eater"
+#define PARANOIA		"paranoia"
 #define RAGSTORICHES	"ragstoriches"
 #define WAIFU			"waifu"
 #define BEEPSKY_CLASSIC	"beepsky_classic"
@@ -397,6 +398,8 @@
 #define HYOSCYAMINE		"hyoscyamine"
 #define CORIAMYRTIN		"coriamyrtin"
 #define THYMOL			"thymol"
+
+
 #define POTASSIUMCARBONATE "potassium_carbonate"
 #define TOBACCO			"tobacco"
 #define DANBACCO		"danbacco"
