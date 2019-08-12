@@ -433,6 +433,8 @@ var/list/lawgiver_modes = list(
 			to_chat(user, "<span class='warning'>There is already a magazine loaded in \the [src]!</span>")
 	else if (istype(A, /obj/item/ammo_storage/magazine))
 		to_chat(user, "<span class='warning'>You can't load \the [src] with that kind of magazine!</span>")
+	
+	..()
 
 /obj/item/weapon/gun/lawgiver/proc/check_mag_type(obj/item/I, mob/user)
 	if(istype(I, /obj/item/ammo_storage/magazine/lawgiver/demolition))
